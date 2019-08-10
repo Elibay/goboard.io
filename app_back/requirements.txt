@@ -1,0 +1,7 @@
+Package    Version
+---------- -------
+Django     2.2.4
+pip        19.0.3
+pytz       2019.2
+setuptools 40.8.0
+sqlparse   0.3.0
