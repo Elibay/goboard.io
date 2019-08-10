@@ -9,7 +9,6 @@ class Game(models.Model):
 
 
 class Lobby(models.Model):
-    url = models.CharField(max_length=1024, blank=False, null=False)
     game = models.ForeignKey(Game, on_delete=models.DO_NOTHING)
     GAME_STATES = (
         ('WAITING', 0),
