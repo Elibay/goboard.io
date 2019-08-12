@@ -18,5 +18,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.greeter),
+    path('', views.CreateLobbyAPIView.as_view()),
 ]

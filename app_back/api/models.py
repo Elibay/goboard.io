@@ -15,7 +15,7 @@ class Lobby(models.Model):
         ('RUNNING', 1),
         ('FINISHED', 2),
     )
-    state = models.IntegerField(choices=GAME_STATES, default='WAITING')
+    state = models.IntegerField(choices=GAME_STATES, default=0)
 
 
 class Player(models.Model):
