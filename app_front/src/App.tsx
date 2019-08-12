@@ -1,4 +1,5 @@
 import React from 'react';
+import { CookiesProvider } from 'react-cookie';
 import { MainPage } from './components';
 import styled from 'styled-components';
 
@@ -59,9 +60,11 @@ class App extends React.Component<IProps, IState> {
 
   render() {
     return (
-      <Wrapper value={this.state.value}>
-        <MainPage />
-      </Wrapper>
+      <CookiesProvider>
+        <Wrapper value={this.state.value}>
+          <MainPage />
+        </Wrapper>
+      </CookiesProvider>
     );
   }
 }

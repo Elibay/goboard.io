@@ -9,6 +9,7 @@
     "@types/react-dom": "16.8.5",
     "@types/styled-components": "^4.1.18",
     "react": "^16.9.0",
+    "react-cookie": "^4.0.1",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.0",
     "styled-components": "^4.3.2",

@@ -51,6 +51,10 @@ const MainPage: React.FC = () => {
   const [isJoin, changeJoin] = useState(false); 
   const [pin, changePin] = useState('');
 
+  const handleJoin = function() {
+      
+  }
+
   return (
     <Page>
       <Header>
