@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import models as auth_models
 
 # Create your models here.
 
@@ -18,8 +19,14 @@ class Lobby(models.Model):
     state = models.IntegerField(choices=GAME_STATES, default=0)
 
 
-class Player(models.Model):
-    token = models.CharField(max_length=256, default='shoikh123', blank=False, null=False)
-    name = models.CharField(max_length=256, default='Shaik', blank=False, null=False)
-    lobby = models.ForeignKey(Lobby, related_name='players', on_delete=models.DO_NOTHING)
+class Participation(models.Model):
+    lobby = models.ForeignKey('Lobby', related_name='participants', on_delete=models.DO_NOTHING)
+    player = models.ForeignKey('Player', related_name='participations', on_delete=models.DO_NOTHING)
     is_admin = models.BooleanField(default=False)
+    is_current = models.BooleanField(default=True)
+
+
+class Player(auth_models.AbstractBaseUser):
+    USERNAME_FIELD = 'name'
+    name = models.CharField(max_length=256, default='Guest')
+    password = None
