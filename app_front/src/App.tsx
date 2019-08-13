@@ -1,15 +1,19 @@
 import React from 'react';
-import { CookiesProvider } from 'react-cookie';
+import { withCookies, Cookies } from 'react-cookie';
+import { PacmanLoader } from 'react-spinners';
 import { MainPage } from './components';
 import styled from 'styled-components';
 
 const DELTA: number = 200;
 
-interface IProps {}
+interface IProps {
+  cookies: Cookies;
+}
 
 interface IState {
   value: number;
   multiply: number;
+  fetching: boolean;
 }
 
 interface WrapperProps {
@@ -32,7 +36,8 @@ class App extends React.Component<IProps, IState> {
 
     this.state = {
       value: 0,
-      multiply: 1
+      multiply: 1,
+      fetching: true
     };
   }
 
@@ -52,6 +57,16 @@ class App extends React.Component<IProps, IState> {
         }
       });
     }, DELTA);
+
+    const token = this.props.cookies.get('token');
+
+    if (token) {
+
+    } else {
+      this.setState({
+        fetching: false
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -59,14 +74,23 @@ class App extends React.Component<IProps, IState> {
   }
 
   render() {
+    const { fetching } = this.state;
+
     return (
-      <CookiesProvider>
-        <Wrapper value={this.state.value}>
-          <MainPage />
-        </Wrapper>
-      </CookiesProvider>
+      <Wrapper value={this.state.value}>
+        {
+          fetching ?
+            <PacmanLoader
+              sizeUnit='px'
+              size={30}
+              color='#f0f002'
+            />
+          :
+            <MainPage />
+        }
+      </Wrapper>
     );
   }
 }
 
-export default App;
+export default withCookies(App);

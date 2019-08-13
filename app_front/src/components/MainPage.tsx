@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Input } from './';
 import styled from 'styled-components';
 
 const Page = styled.div`
@@ -36,41 +37,58 @@ const Button = styled.button<ButtonProps>`
   }
 `;
 
-const PinInput = styled.input`
-  text-align: center;
-  border: none;
-  border: 2px solid #cccccc;
-  font-size: 22px;
-  font-weight: bold;
-  padding: 10px 10px;
-  width: 200px;
-  margin-top: 30px;
-`;
-
 const MainPage: React.FC = () => {
-  const [isJoin, changeJoin] = useState(false); 
+  const [isCreate, changeCreate] = useState(false);
+  const [gameName, changeGameName] = useState('');
   const [pin, changePin] = useState('');
 
   const handleJoin = function() {
       
   }
 
+  const handleCreate = function() {
+    changeCreate(!isCreate);
+  }
+
+  const handleStartGame = function() {
+    
+  }
+
+  const form: React.ReactNode = isCreate ?
+    (
+      <>
+        <Input
+          placeholder="Name" 
+          value={gameName} 
+          onChange={event => changeGameName(event.target.value)} 
+        />
+        <Button onClick={handleStartGame}>
+          Start!
+        </Button>
+      </>
+    ) :
+    (
+      <>
+        <Input
+          placeholder="Game PIN" 
+          value={pin} 
+          onChange={event => changePin(event.target.value)} 
+        />
+        <Button onClick={handleJoin}>
+          Join
+        </Button>
+        <Button onClick={handleCreate}>
+          Create
+        </Button>
+      </>
+    ); 
+
   return (
     <Page>
       <Header>
         Krarauch!
       </Header>
-      <PinInput
-        placeholder="Game PIN" 
-        value={pin} 
-        onChange={event => changePin(event.target.value)} 
-      />
-      <Button onClick={() => changeJoin(true)}>
-        Join
-      </Button>
-      <Button create>
-        Create
-      </Button>
+      {form}
     </Page>
   );
 }   
