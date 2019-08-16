@@ -29,18 +29,18 @@ class Participation(models.Model):
 
 class Player(models.Model):
     nickname = models.CharField(
-        _('nickname'),
+        'nickname',
         max_length=150,
         default='Guest',
     )
     user = models.OneToOneField(
         auth_models.User, related_name='profile',
-        null=True, verbose_name=_(""), on_delete=models.CASCADE,
+        null=True, verbose_name="", on_delete=models.CASCADE,
     )
 
     class Meta:
-        verbose_name = _('player')
-        verbose_name_plural = _('players')
+        verbose_name = 'player'
+        verbose_name_plural = 'players'
 
     def __str__(self):
         return self.nickname + '#' + str(self.id)

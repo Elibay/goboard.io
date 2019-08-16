@@ -2,9 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-#from api.models.authorization import Player, MyToken
 from api.models import Player, PlayerToken, Lobby, Game, Participation
-from api.serializers import ParticipationSerializer, PlayerSerializer
+from api.serializers import ParticipationSerializer, PlayerSerializer, LobbySerializer
 
 
 def get_player(request):
@@ -12,7 +11,7 @@ def get_player(request):
 
 
 def kick_player(player):
-    current_participation = player.participations.get(is_current=True)
+    current_participation = player.participations.filter(is_current=True).first()
     if current_participation is not None:
         current_participation.is_current = False
         current_participation.save()
@@ -20,8 +19,8 @@ def kick_player(player):
 
 class RegisterAPIView(APIView):
     def get(self, request):
-        new_player = Player.objects.create(username=request.data['username'])
-        token = PlayerToken.objects.create(user=new_player)
+        new_player = Player.objects.create(nickname=request.data['nickname'])
+        token = PlayerToken.objects.create(player=new_player)
         return Response(status=status.HTTP_200_OK, data={'token': token.key})
 
 
@@ -30,15 +29,21 @@ class GetPlayerInfoAPIView(APIView):
         player = get_player(request)
         response = Response(status=status.HTTP_200_OK, data={})
         serializer = PlayerSerializer(player)
-        response.data['username'] = serializer.data
+        response.data['nickname'] = serializer.data
         serializer = ParticipationSerializer(Participation.objects.filter(player=player), many=True)
         response.data['participations'] = serializer.data
         return response
 
 
 class GetLobbyInfoAPIView(APIView):
-    def get(self, requset):
-        lobby = Lobby.objects.get(id=requset['lobby_id'])
+    def get(self, request):
+        player = get_player(request)
+        lobby = Lobby.objects.get(id=request['lobby_id'])
+        participation = player.participations.filter(lobby=lobby).first()
+        if participation is None:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        response = Response(status=status.HTTP_200_OK, data={})
+        response.data['lobby'] = LobbySerializer().data
         return response
 
 
