@@ -2,6 +2,7 @@ import React from 'react';
 import { withCookies, Cookies } from 'react-cookie';
 import { PacmanLoader } from 'react-spinners';
 import { MainPage } from './components';
+import { getUserInfo } from './utils/mockApi';
 import styled from 'styled-components';
 
 const DELTA: number = 200;
@@ -14,6 +15,8 @@ interface IState {
   value: number;
   multiply: number;
   fetching: boolean;
+  userInfo: any;
+  gameMode: boolean;
 }
 
 interface WrapperProps {
@@ -37,7 +40,9 @@ class App extends React.Component<IProps, IState> {
     this.state = {
       value: 0,
       multiply: 1,
-      fetching: true
+      fetching: true,
+      userInfo: null,
+      gameMode: false
     };
   }
 
@@ -61,7 +66,25 @@ class App extends React.Component<IProps, IState> {
     const token = this.props.cookies.get('token');
 
     if (token) {
-
+      //const socket = new WebSocket('url');
+      // getUserInfo(true)
+      //   .then(userInfo => {
+      //     this.setState({
+      //       userInfo,
+      //       fetching: false
+      //     });
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //     this.setState({
+      //       fetching: false
+      //     });
+      //   });
+      
+      
+      this.setState({
+        fetching: false
+      });
     } else {
       this.setState({
         fetching: false
@@ -74,20 +97,27 @@ class App extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { fetching } = this.state;
+    const { fetching, gameMode } = this.state;
+
+    let content = (
+      <PacmanLoader
+        sizeUnit='px'
+        size={30}
+        color='#f0f002'
+      />
+    );
+
+    if (!fetching) {
+      if (gameMode) {
+        content = <p>Krauch, salam! Go and play!</p>;
+      } else {
+        content = <MainPage />;
+      }
+    }
 
     return (
       <Wrapper value={this.state.value}>
-        {
-          fetching ?
-            <PacmanLoader
-              sizeUnit='px'
-              size={30}
-              color='#f0f002'
-            />
-          :
-            <MainPage />
-        }
+        {content}
       </Wrapper>
     );
   }

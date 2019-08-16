@@ -12,6 +12,7 @@
     "react": "^16.9.0",
     "react-cookie": "^4.0.1",
     "react-dom": "^16.9.0",
+    "react-loader-spinner": "^3.1.2",
     "react-scripts": "3.1.0",
     "react-spinners": "^0.5.12",
     "styled-components": "^4.3.2",

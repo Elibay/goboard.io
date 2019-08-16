@@ -7,3 +7,13 @@ it('renders without crashing', () => {
   ReactDOM.render(<App />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
+
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        dafaf
+      </div>
+    )
+  }
+}
