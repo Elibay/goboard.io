@@ -18,5 +18,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.CreateLobbyAPIView.as_view()),
+    path('register/', views.RegisterAPIView.as_view()),
+    path('create_lobby/', views.CreateLobbyAPIView.as_view()),
+    path('change_name/', views.ChangeNameAPIView.as_view()),
+    path('join_lobby/', views.JoinLobbyAPIView.as_view()),
+    path('leave_lobby/', views.LeaveLobbyAPIView.as_view()),
+    path('get_info/', views.GetPlayerInfoAPIView.as_view()),
 ]

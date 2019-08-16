@@ -25,7 +25,16 @@ SECRET_KEY = '4oxy6*^+s0)&+##rle^358czf_9#y0-n2j0*t2x5$f6yp69(70'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.20.10.2', '127.0.0.1']
+#AUTH_USER_MODEL = 'api.Player'
+
+#AUTHENTICATION_BACKENDS = [
+#    'api.AuthBackend'
+#]
+
+ALLOWED_HOSTS = [
+    '172.20.10.2',
+    '127.0.0.1'
+]
 
 # Application definition
 
@@ -37,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'api',
 ]
 
