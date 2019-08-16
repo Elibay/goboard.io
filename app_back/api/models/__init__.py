@@ -3,9 +3,6 @@ import os
 
 from django.db import models
 from django.contrib.auth import models as auth_models
-from django.utils.translation import gettext_lazy as _
-#from .authorization import Player
-#from .backend import AuthBackend
 
 
 class Game(models.Model):
@@ -36,6 +33,10 @@ class Player(models.Model):
         max_length=150,
         default='Guest',
     )
+    user = models.OneToOneField(
+        auth_models.User, related_name='profile',
+        null=True, verbose_name=_(""), on_delete=models.CASCADE,
+    )
 
     class Meta:
         verbose_name = _('player')
@@ -46,16 +47,16 @@ class Player(models.Model):
 
 
 class PlayerToken(models.Model):
-    key = models.CharField(_("Key"), max_length=40, primary_key=True)
-    user = models.OneToOneField(
-        Player, related_name='token',
-        on_delete=models.CASCADE, verbose_name=_("Player")
+    key = models.CharField("Key", max_length=40, primary_key=True)
+    player = models.OneToOneField(
+        Player, related_name="token",
+        on_delete=models.CASCADE, verbose_name="Player"
     )
-    created = models.DateTimeField(_("Created"), auto_now_add=True)
+    created = models.DateTimeField("Created", auto_now_add=True)
 
     class Meta:
-        verbose_name = _("Token")
-        verbose_name_plural = _("Tokens")
+        verbose_name = "Token"
+        verbose_name_plural = "Tokens"
 
     def save(self, *args, **kwargs):
         if not self.key:

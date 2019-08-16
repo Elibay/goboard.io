@@ -36,6 +36,12 @@ class GetPlayerInfoAPIView(APIView):
         return response
 
 
+class GetLobbyInfoAPIView(APIView):
+    def get(self, requset):
+        lobby = Lobby.objects.get(id=requset['lobby_id'])
+        return response
+
+
 class ChangeNameAPIView(APIView):
     def post(self, request):
         player = get_player(request)
