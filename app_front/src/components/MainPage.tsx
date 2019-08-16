@@ -46,7 +46,7 @@ const MainPage: React.FC = () => {
       
   }
 
-  const handleCreate = function() {
+  const toggleCreate = function() {
     changeCreate(!isCreate);
   }
 
@@ -65,6 +65,9 @@ const MainPage: React.FC = () => {
         <Button onClick={handleStartGame}>
           Start!
         </Button>
+        <Button onClick={toggleCreate}>
+          Back
+        </Button>
       </>
     ) :
     (
@@ -77,7 +80,7 @@ const MainPage: React.FC = () => {
         <Button onClick={handleJoin}>
           Join
         </Button>
-        <Button onClick={handleCreate}>
+        <Button onClick={toggleCreate}>
           Create
         </Button>
       </>
