@@ -6,7 +6,7 @@ from api.models import Player, Lobby, Participation
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
-        fields = '__all__'
+        fields = ['id', 'nickname', 'creation_time', 'user']
 
 
 class ParticipationSerializer(serializers.ModelSerializer):
@@ -18,6 +18,8 @@ class ParticipationSerializer(serializers.ModelSerializer):
 
 
 class LobbySerializer(serializers.ModelSerializer):
+    participants = ParticipationSerializer()
+
     class Meta:
         model = Lobby
         fields = '__all__'
