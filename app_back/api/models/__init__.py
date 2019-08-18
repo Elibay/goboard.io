@@ -3,6 +3,7 @@ import os
 
 from django.db import models
 from django.contrib.auth import models as auth_models
+from rest_framework.authtoken.models import Token
 
 from django.utils import timezone
 
@@ -23,6 +24,7 @@ class Lobby(models.Model):
 
 
 class Participation(models.Model):
+
     lobby = models.ForeignKey('Lobby', related_name='participants', on_delete=models.CASCADE)
     player = models.ForeignKey('Player', related_name='participations', on_delete=models.CASCADE)
     time_joined = models.DateTimeField('Time joined', default=timezone.now)
@@ -31,6 +33,8 @@ class Participation(models.Model):
 
 
 class Player(models.Model):
+    _EMPTY_TOKEN = '__empty__'
+
     nickname = models.CharField(
         'nickname',
         max_length=150,
@@ -40,12 +44,20 @@ class Player(models.Model):
         auth_models.User, related_name='profile',
         null=True, verbose_name="", on_delete=models.CASCADE,
     )
-    token = models.CharField("Token", max_length=40, default=binascii.hexlify(os.urandom(20)).decode())
+    token = models.CharField("Token", max_length=40, default=_EMPTY_TOKEN)
     creation_time = models.DateTimeField("CreationTime", auto_now_add=True)
 
     class Meta:
         verbose_name = 'player'
         verbose_name_plural = 'players'
+
+    def save(self, *args, **kwargs):
+        if self.token == self._EMPTY_TOKEN:
+            self.token = self.generate_key()
+        return super().save(*args, **kwargs)
+
+    def generate_key(self):
+        return binascii.hexlify(os.urandom(20)).decode()
 
     def __str__(self):
         return self.nickname + '#' + str(self.id)

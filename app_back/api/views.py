@@ -36,7 +36,10 @@ def kick_player(player):
 
 class RegisterAPIView(APIView):
     def get(self, request):
-        player = Player.objects.create(nickname=request.data['nickname'])
+        try:
+            player = Player.objects.create(nickname=request.data['nickname'])
+        except KeyError:
+            player = Player.objects.create(nickname='Guest')
         return Response(status=status.HTTP_200_OK, data={'token': player.token, 'id': player.id})
 
 
