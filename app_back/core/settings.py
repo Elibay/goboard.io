@@ -48,10 +48,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'channels',
+    'corsheaders',
     'api',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -135,4 +137,12 @@ STATIC_URL = '/static/'
 
 # Django Channels
 
-ASGI_APPLICATION = "api.routing.application"
+ASGI_APPLICATION = "api.ws.routing.application"
+
+
+# CORS Headers
+#
+# CORS_ORIGIN_WHITELIST = [
+#     "ws://192.168.43.243:3000",
+#     "http://192.168.43.243:3000",
+# ]
